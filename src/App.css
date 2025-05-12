@@ -298,6 +298,17 @@ h2 {
     margin-bottom: 8px;
 }
 
+/* 404 - Page Not Found */
+
+.problem {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    font-size: 4rem;
+}
+
 /* Footer */
 
 footer {
