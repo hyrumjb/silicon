@@ -1,4 +1,3 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
 import '../App.css';
 
 function Footer() {

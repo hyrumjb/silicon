@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import '../App.css';
 
 import backgroundImg from '../assets/background.jpg';
@@ -6,8 +7,13 @@ import ericImg from '../assets/eric.jpg';
 
 function Independent() {
     // User name state and month state
-    const userName = localStorage.getItem("userName") || "";
-    const userMonth = localStorage.getItem("userMonth") || "";
+    const [userName, setUserName] = useState('');
+    const [userMonth, setUserMonth] = useState('');
+    
+    useEffect(() => {
+        setUserName(localStorage.getItem("userName") || "");
+        setUserMonth(localStorage.getItem("userMonth") || "");
+    })
 
     return (
         <div className="app-container">

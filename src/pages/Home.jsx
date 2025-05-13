@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import '../App.css';
 
 import backgroundImg from '../assets/background.jpg';
@@ -7,58 +7,50 @@ import aaronImg from '../assets/aaron.jpg';
 import joshImg from '../assets/josh.jpg';
 import ericImg from '../assets/eric.jpg';
 
+const MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June', 
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
 function Home() {
   // User name state
-  const [userName, setUserName] = useState(() => {
-    return localStorage.getItem("userName") || "";
-  });
+  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [inputName, setInputName] = useState("");
 
+  // Month selector
+  const [userMonth, setUserMonth] = useState(localStorage.getItem("userMonth") || "")
+  const [inputMonth, setInputMonth] = useState("");
+
+  // Settings box
+  const [showSettings, setShowSettings] = useState(true);
+
+  // Images visibility
+  const [showImages, setShowImages] = useState(true);
+
+  // Handle user name submission
   const handleNameSubmit = (e) => {
     e.preventDefault();
     if (inputName.trim()) {
-      localStorage.setItem("userName", inputName.trim());
       setUserName(inputName.trim());
+      localStorage.setItem("userName", inputName.trim());
       setInputName("");
     } else {
       alert("Try inputting name again ...");
     }
   };
 
-  //Settings box
-  const [showSettings, setShowSettings] = useState(true);
-
-  //Images toggle button
-  const imageRefs = useRef([]);
-  const [showImages, setShowImages] = useState(true);
-
-  const toggleImages = () => {
-    imageRefs.current.forEach(img => {
-      if (img) img.classList.toggle("hidden");
-    });
-    setShowImages(prev => !prev);
-  };
-
-  // Month selector
-  const [userMonth, setUserMonth] = useState(() => {
-    return localStorage.getItem("userMonth") || "";
-  })
-  const [inputMonth, setInputMonth] = useState("");
-
-  const handleMonthChange = (e) => {
-    setInputMonth(e.target.value);
-  };
-
   const handleMonthSubmit = (e) => {
     e.preventDefault();
     if (inputMonth) {
-      localStorage.setItem("userMonth", inputMonth);
       setUserMonth(inputMonth);
+      localStorage.setItem("userMonth", inputMonth);
       setInputMonth("");
     } else {
       alert("Try inputting month again ...");
     }
   };
+  
+  const toggleImages = () => setShowImages((prev) => !prev);
 
   // Key-based color switcher
   const switchColors = useCallback((color) => {
@@ -88,12 +80,7 @@ function Home() {
           </div>
         )}
 
-        <img 
-          ref={(el) => { if (el) imageRefs.current[0] = el }}
-          src={backgroundImg}
-          alt="Salt Lake City skyline"
-          id="main-image"
-        />
+        {showImages && <img src={backgroundImg} alt="Salt Lake City skyline" id="main-image" />}
         
         {showSettings && (
           <div id="settings">
@@ -134,11 +121,7 @@ function Home() {
                 onChange={(e) => setInputMonth(e.target.value)}
               >
                 <option value="">--Select Month--</option>
-                {[
-                  'January', 'February', 'March', 'April',
-                  'May', 'June', 'July', 'August',
-                  'September', 'October', 'November', 'December'
-                ].map(month => (
+                {MONTHS.map(month => (
                   <option key={month} value={month}>{month}</option>
                 ))}
               </select>
@@ -162,13 +145,7 @@ function Home() {
         <div id="section-1">
           <h2>Ryan Smith</h2>
           <div className="content">
-            {showImages && (
-              <img
-                ref={(el) => { if (el) imageRefs.current[1] = el }}
-                src={ryanImg} 
-                alt="biographical image" 
-              />
-            )}
+            {showImages && <img src={ryanImg} alt="biographical image" />}
             <div className="text-content">
               <h3>Company:</h3><p>Qualtrics (Co-founder & Executive Chairman)</p>
               <h3>Company Valuation:</h3><p>$12.5 billion (2023 acquired by Silver Lake)</p>
@@ -189,26 +166,14 @@ function Home() {
               <h3>Estimated Net Worth:</h3><p>Unknown (roughly $455 million)</p>
               <h3>Career Bio:</h3><p>Aaron Skonnard co-founded Pluralsight in 2004, initially offering classroom training before transitioning to an online platform for tech professionals. Under his guidance, Pluralsight became a prominent online learning company, serving a vast enterprise clientele.</p>
             </div>
-            {showImages && (
-              <img
-                ref={(el) => { if (el) imageRefs.current[2] = el }}
-                src={aaronImg} 
-                alt="biographical image" 
-              />
-            )}
+            {showImages && <img src={aaronImg} alt="biographical image" />}
           </div>
         </div>
 
         <div id="section-3">
           <h2>Josh James</h2>
           <div className="content">
-            {showImages && (
-              <img
-                ref={(el) => { if (el) imageRefs.current[3] = el }}
-                src={joshImg} 
-                alt="biographical image" 
-              />
-            )}
+            {showImages && <img src={joshImg} alt="biographical image" />}
             <div className="text-content">
               <h3>Company:</h3><p>Domo (Founder & Former CEO); previously co-founded Omniture</p>
               <h3>Company Valuation:</h3><p>Domo: $308 million, Omniture: $1.8 billion (2009 acquired by Adobe)</p>
@@ -229,13 +194,7 @@ function Home() {
               <h3>Estimated Net Worth:</h3><p>Unknown (roughly $450 million)</p>
               <h3>Career Bio:</h3><p>Eric Rea co-founded Podium in 2014, transforming it from a small startup into a leading customer interaction platform for local businesses. Under his leadership, Podium expanded its offerings to include messaging and payment solutions, serving a broad client base.</p>
             </div>
-            {showImages && (
-              <img
-                ref={(el) => { if (el) imageRefs.current[4] = el }}
-                src={ericImg} 
-                alt="biographical image" 
-              />
-            )}
+            {showImages && <img src={ericImg} alt="biographical image" />}
           </div>
         </div>
       </main>
